@@ -1,35 +1,26 @@
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.ResultSet;
-import java.sql.Statement;
 import java.util.Scanner;
-
 public class Main {
 
     public static void main(String[] args) {
 
-        String url = "jdbc:mysql://localhost:3306/darshini_db";
-        String user = "root";
-        String password = "@b!$#3k@2003";
         Scanner sc = new Scanner(System.in);
-
-System.out.println("===== Expense Tracker =====");
-System.out.println("1. Add Expense");
-System.out.println("2. View Expenses");
-System.out.println("3. Exit"); 
-System.out.print("Enter your choice: ");
-
-int choice = sc.nextInt();
-
         try {
-            Connection con = DriverManager.getConnection(url, user, password);
+            ExpenseDAO dao = new ExpenseDAO();
+            while (true) {
 
-            Statement stmt = con.createStatement();
+    System.out.println("\n===== Expense Tracker =====");
+    System.out.println("1. Add Expense");
+    System.out.println("2. View Expenses");
+    System.out.println("3. Update Expense");
+    System.out.println("4. Delete Expense");
+    System.out.println("5. Search by Category");
+    System.out.println("6. Total Expenses");
+    System.out.println("7. Exit");
+    System.out.print("Enter your choice: ");
 
+    int choice = sc.nextInt();
            if (choice == 1) {
-
     sc.nextLine();
-
     System.out.print("Enter Title: ");
     String title = sc.nextLine();
 
@@ -43,51 +34,59 @@ int choice = sc.nextInt();
     System.out.print("Enter Date (YYYY-MM-DD): ");
     String date = sc.nextLine();
 
-    String sql = "INSERT INTO expenses(title, amount, category, expense_date) VALUES ('"
-            + title + "', "
-            + amount + ", '"
-            + category + "', '"
-            + date + "')";
+   Expense expense = new Expense(0, title, amount, category, date);
+dao.addExpense(expense);
+} 
+else if (choice == 2) {
 
-    stmt.executeUpdate(sql);
-
-    System.out.println("✅ Expense Added Successfully!");
-
-} else if (choice == 2) {
-
-    ResultSet rs = stmt.executeQuery("SELECT * FROM expenses");
-
-    System.out.println("\n===== Expense List =====");
-
-    while (rs.next()) {
-
-        System.out.println(
-                rs.getInt("id") + " | " +
-                rs.getString("title") + " | ₹" +
-                rs.getDouble("amount") + " | " +
-                rs.getString("category") + " | " +
-                rs.getDate("expense_date"));
-    }
-
-} else if (choice == 3) {
-
-    System.out.println("Thank you!");
-
-} else {
-
-    System.out.println("Invalid Option!");
-
+    dao.viewExpenses();
 }
-con.close();
+else if (choice == 3) {
 
+    System.out.print("Enter Expense ID to Update: ");
+    int id = sc.nextInt();
+    sc.nextLine();
+
+    System.out.print("Enter New Title: ");
+    String title = sc.nextLine();
+
+    System.out.print("Enter New Amount: ");
+    double amount = sc.nextDouble();
+    sc.nextLine();
+
+    System.out.print("Enter New Category: ");
+    String category = sc.nextLine();
+
+   dao.updateExpense(id, title, amount, category);
+}
+else if (choice == 4) {
+    System.out.print("Enter Expense ID to Delete: ");
+    int id = sc.nextInt();
+   dao.deleteExpense(id);
+}
+else if (choice == 5) {
+    sc.nextLine();
+    System.out.print("Enter Category: ");
+    String category = sc.nextLine();
+    dao.searchByCategory(category);
+}
+else if (choice == 6) {
+    dao.showTotalExpenses();
+}
+else if (choice == 7) {
+    System.out.println("Thank you!");
+    break;
+}
+else {
+    System.out.println("❌ Invalid choice. Please try again.");
+}
+}   // while ends
 } catch (Exception e) {
     e.printStackTrace();
 }
-
 sc.close();
-
-}
-}
+}   // main ends
+}   // class ends
         
 
             

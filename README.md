@@ -90,3 +90,35 @@ Through this project I learned:
 ## Author
 
 **M Darshini**
+
+---
+
+## Screenshots
+
+### Main Menu
+
+![Main Menu](screenshots/menu.png)
+
+### Add Expense
+
+![Add Expense](screenshots/add-expense.png)
+
+### View Expenses
+
+![View Expenses](screenshots/view-expenses.png)
+
+### Update Expense
+
+![Update Expense](screenshots/update-expense.png)
+
+### Delete Expense
+
+![Delete Expense](screenshots/delete-expense.png)
+
+### Search by Category
+
+![Search by Category](screenshots/search-category.png)
+
+### Total Expenses
+
+![Total Expenses](screenshots/total-expenses.png)
